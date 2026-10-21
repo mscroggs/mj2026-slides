@@ -1,0 +1,20 @@
+<html>
+<head>
+<title>Matthew Scroggs: 2025 Squares (MathsJam 2025)</title>
+<link rel="stylesheet" href="_static/sty.css" type="text/css">
+<script type='text/javascript'>
+document.addEventListener('keydown', function(event){
+    const currentCode = event.which || event.code;
+    var currentKey = event.key;
+    if (!currentKey) {
+        currentKey = String.fromCharCode(currentCode);
+    }
+    const keyName = "" + currentKey
+    document.getElementById("info").innerHTML = keyName
+});
+</script>
+</head>
+<body class="title">
+<div class='title' id='info'></div>
+</body>
+</html>
