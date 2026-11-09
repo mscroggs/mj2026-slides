@@ -1,3 +1,11 @@
+import re
+
+def nonogram(m):
+    rows = [i.split() for i in m[1].split('rows="')[1].split('"')[0].split("|")]
+    cols = [i.split() for i in m[1].split('cols="')[1].split('"')[0].split("|")]
+    print(rows, cols)
+    return "LOLOL"
+
 def to_html(page):
 
     while "</for>" in page:
@@ -31,12 +39,5 @@ def to_html(page):
     page = page.replace("<icon website>", "<span class='icon website'>d</span>")
     page = page.replace("<icon mastodon>", "<span class='icon mastodon'>n</span>")
     page = page.replace("<icon bluesky>", "<span class='icon bluesky'>t</span>")
-    if "<array:solutions8>" in page:
-        with open("solutions8.txt") as f:
-            s8 = f.readlines()
-        page = page.replace("<array:solutions8>", "[" + ",".join(s8) + "]")
-    if "<array:solutions9>" in page:
-        with open("solutions9.txt") as f:
-            s9 = f.readlines()
-        page = page.replace("<array:solutions9>", "[" + ",".join(s9) + "]")
+    page = re.sub(r"\<nonogram ([^\>]+)\>", nonogram, page)
     return page
