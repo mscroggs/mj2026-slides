@@ -25,6 +25,15 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'martianmono';
+    src: url('MartianMono-Regular.woff2') format('woff2'),
+        url('MartianMono-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 /* general */
 
 html{height: 100%;font-size:5vh;font-family:ralewaysemibold}
@@ -49,6 +58,8 @@ img.full-slide-wide {position:absolute;width:98vw;left:1vw;top:50vh;transform:tr
 img.full-slide.below-title {height:90vh;top:10vh}
 img.left-half {position:absolute;width:48vw;left:1vw;top:50vh;transform:translate(0,-50%);}
 img.right-half {position:absolute;width:48vw;right:1vw;top:50vh;transform:translate(0,-50%);}
+
+svg {max-height:80vh;max-width:80vw;margin:auto;display:block;margin-top:10vh}
 
 .slide {position:absolute;top:0;bottom:0;left:0;right:0}
 

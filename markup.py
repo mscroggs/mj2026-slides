@@ -1,10 +1,53 @@
 import re
 
 def nonogram(m):
-    rows = [i.split() for i in m[1].split('rows="')[1].split('"')[0].split("|")]
-    cols = [i.split() for i in m[1].split('cols="')[1].split('"')[0].split("|")]
-    print(rows, cols)
-    return "LOLOL"
+    rows = [[int(j) for j in i.split()] for i in m[1].split('rows="')[1].split('"')[0].split("|")]
+    row_texts = [" ".join(f"{j}" for j in i) for i in rows]
+    nrows = len(rows)
+    row_clue_len = max(len(i) for i in row_texts)
+
+    cols = [[int(j) for j in i.split()] for i in m[1].split('cols="')[1].split('"')[0].split("|")]
+    col_texts = [" ".join(f"{j}" for j in i) for i in cols]
+    ncols = len(cols)
+    col_clue_len = max(len(i.split()) for i in col_texts)
+
+    if 'filled="' in m[1]:
+        filled = [tuple(int(j) for j in i.split(",")) for i in m[1].split('filled="')[1].split('"')[0].split()]
+    else:
+        filled = []
+    if 'unfilled="' in m[1]:
+        unfilled = [tuple(int(j) for j in i.split(",")) for i in m[1].split('unfilled="')[1].split('"')[0].split()]
+    else:
+        unfilled = []
+
+    svg = f"<svg viewBox='0 0 {20 + 100 * ncols + 65 * row_clue_len} {20 + 100*nrows + 100 * col_clue_len}' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'>\n"
+
+    for i, j in filled:
+        svg += f"<rect x='{10 + 65 * row_clue_len + 100 * i}' y='{10 + 100 * col_clue_len + 100 * j}' width='100' height='100' />\n"
+    for i, j in unfilled:
+        x = 60 + 65 * row_clue_len + 100 * i
+        y = 60 + 100 * col_clue_len + 100 * j
+        svg += f"<line x1='{x+15}' y1='{y+15}' x2='{x-15}' y2='{y-15}' stroke-linecap='round' stroke-width='3.0' stroke='#CCCCCC' />\n"
+        svg += f"<line x1='{x+15}' y1='{y-15}' x2='{x-15}' y2='{y+15}' stroke-linecap='round' stroke-width='3.0' stroke='#CCCCCC' />\n"
+
+    for i in range(ncols + 1):
+        x = 10 + 65 * row_clue_len + 100 * i
+        svg += f"<line x1='{x}' y1='10' x2='{x}' y2='{10 + 100 * col_clue_len}' stroke-linecap='round' stroke-width='3.0' stroke='#CCCCCC' />\n"
+        svg += f"<line x1='{x}' y1='{10 + 100 * col_clue_len}' x2='{x}' y2='{10 + 100 * col_clue_len + 100 * nrows}' stroke-linecap='round' stroke-width='3.0' stroke='#000000' />\n"
+    for i, clue in enumerate(col_texts):
+        for j, c in enumerate(clue.split()[::-1]):
+            svg += f"<text x='{60 + 65 * row_clue_len + 100 * i}' y='{100 * (col_clue_len - j)}' fill='#000000' font-size='25' style=\"text-anchor:middle;dominant-baseline:text-bottom;font-size:80px;font-family:martianmono\">{c}</text>\n"
+
+    for i in range(nrows + 1):
+        y = 10 + 100 * col_clue_len + 100 * i
+        svg += f"<line x1='10' y1='{y}' x2='{10 + 65 * row_clue_len}' y2='{y}' stroke-linecap='round' stroke-width='3.0' stroke='#CCCCCC' />\n"
+        svg += f"<line x1='{10 + 65 * row_clue_len}' y1='{y}' x2='{10 + 65 * row_clue_len + 100 * ncols}' y2='{y}' stroke-linecap='round' stroke-width='3.0' stroke='#000000' />\n"
+    for i, clue in enumerate(row_texts):
+        svg += f"<text x='{65 * row_clue_len}' y='{60 + 100 * col_clue_len + 100 * i}' fill='#000000' font-size='25' style=\"text-anchor:end;dominant-baseline:central;font-size:80px;font-family:martianmono\">{clue}</text>\n"
+
+
+    svg += "</svg>\n"
+    return svg
 
 def to_html(page):
 
