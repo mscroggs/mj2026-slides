@@ -59,7 +59,7 @@ img.full-slide.below-title {height:90vh;top:10vh}
 img.left-half {position:absolute;width:48vw;left:1vw;top:50vh;transform:translate(0,-50%);}
 img.right-half {position:absolute;width:48vw;right:1vw;top:50vh;transform:translate(0,-50%);}
 
-svg {max-height:80vh;max-width:80vw;margin:auto;display:block;margin-top:10vh}
+svg.default-style {max-height:80vh;max-width:80vw;margin:auto;display:block;margin-top:10vh}
 
 .slide {position:absolute;top:0;bottom:0;left:0;right:0}
 
